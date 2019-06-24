@@ -14,8 +14,8 @@ def call(String name = 'human') {
     node {
 
         stage('Check params'){
-            assert params.role_id != '' : 'String param role_id should be assigned' ;
-            assert params.environment != '' : 'String param environment should be assigned' ;
+            assert params.role_id != null : 'String param role_id should be assigned' ;
+            assert params.environment != null : 'String param environment should be assigned' ;
         }
 
         stage('TEST params node') {
