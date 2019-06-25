@@ -2,7 +2,8 @@ class ClassTest {
 
     Script script;
 
-    ClassTest(script) {          
+    def ClassTest(script) {
+        echo "load to constructor";          
         this.script = script;
     }
 
