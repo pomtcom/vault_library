@@ -37,28 +37,73 @@ def call(String name = 'human') {
         stage('create secret_id'){
             print 'creating secret_id'
             // POST
-            def post = new URL(vaultHostAddr + "/v1/auth/approle/role/vault_poc_role/secret-id").openConnection();
-            def message = '{}'
-            post.setRequestMethod("POST")
-            post.setDoOutput(true)
-            post.setRequestProperty("X-Vault-Token", "s.3aVA6ckaOumc6N7WHTZHZ34a")
+
+
+            withCredentials([string(credentialsId: 'VaultToken', variable: 'vaultToken')]) {
+                // echo "My password is '${vaultToken}'!"
+
+                def post = new URL(vaultHostAddr + "/v1/auth/approle/role/vault_poc_role/secret-id").openConnection();
+                def message = '{}'
+                post.setRequestMethod("POST")
+                post.setDoOutput(true)
+
+                post.setRequestProperty("X-Vault-Token", vaultToken)
+                post.getOutputStream().write(message.getBytes("UTF-8"));
+                // println(postRC);
+                if(post.getResponseCode().equals(200)) {
+                    def jsonResponse = post.getInputStream().getText() ;
+                    def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
+                    secret_id = jsonSlurped['data']['secret_id'];
+                    // print('secret_id is ' + secret_id)
+
+                }
+                else{
+                    error("error for calling " + vaultHostAddr + "/v1/auth/approle/role/vault_poc_role/secret-id");
+                    println('http error response code ' + post.getResponseCode());
+                }
+            }
+            assert secret_id != null : 'secret_id is not generated, please check Vault API & token' ;
+        }
+
+        stage('generate role_token'){
+            print 'generating role_token'
+            def post = new URL(vaultHostAddr + "/v1/auth/approle/login").openConnection();
+            def message = '{"role_id": "' + role_id + '",' + '"secret_id": "' + secret_id + '"}';
+            post.setRequestMethod("POST");
+            post.setDoOutput(true);
             post.getOutputStream().write(message.getBytes("UTF-8"));
-            // println(postRC);
             if(post.getResponseCode().equals(200)) {
                 def jsonResponse = post.getInputStream().getText() ;
                 def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
-                
-                // to add try catch for accessing json
-                secret_id = jsonSlurped['data']['secret_id'];
-                // print('secret_id is ' + secret_id)
-
-            }else{
+                role_token = jsonSlurped['auth']['client_token'];
+                // print('role_token is ' + role_token);
+            }
+            else{
+                error("error for calling " + vaultHostAddr + "/v1/auth/approle/login");
                 println('http error response code ' + post.getResponseCode());
             }
-        }
 
-        stage('TEST OUTPUT') {
-            print 'secret_id is ' + secret_id;
+            assert role_token != null : 'role_token is not generated, please check role_id and secret_id for AppRole login' ;
+
+        // print('message to send is ' + message);
+        }
+        stage('get secret'){
+            print 'getting secrt'
+            def get = new URL(vaultHostAddr + "/v1/secret_poc/vault_poc_path").openConnection();
+            get.setRequestProperty("X-Vault-Token", role_token)
+            def getRC = get.getResponseCode();
+            if(getRC.equals(200)) {
+                def jsonResponse = get.getInputStream().getText() ;
+                def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
+                
+                def poc_password = jsonSlurped['data']['MySQL_PASSWORD'];
+                print('MySQL_PASSWORD is ' + poc_password) ;
+            }
+            else{
+                error("error for calling " + vaultHostAddr + "/v1/secret_poc/vault_poc_path");
+                println('http error response code ' + getRC);
+            }
+
         }
 
     }
