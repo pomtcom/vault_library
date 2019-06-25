@@ -23,6 +23,11 @@ class ClassTest {
             // script.echo('test again');
             script.echo(script.params.environment);
             script.echo('end of test');
+
+            script.stage("NEW STAGE XXXXXXX"){
+                script.echo('NEW STAGE XXXXXXX');
+            }
+
         }else{
             // echo "THIS IS NOT WORKING" ;
             script.echo("this is not working");
