@@ -19,8 +19,8 @@ class ClassTest {
             // echo "THIS IS WORKING" ;
             script.echo("this is working");
             script.echo("environment param is ");
-            script.echo(params.environment);
-            script.echo('test again');
+            // script.echo(params.environment);
+            // script.echo('test again');
             script.echo(script.params.environment);
             script.echo('end of test');
         }else{
