@@ -63,12 +63,14 @@ def call(String name = 'human') {
                 }
             }
             assert secret_id != null : 'secret_id is not generated, please check Vault API & token' ;
+            print 'secret_id is ' + secret_id;
         }
 
         stage('generate role_token'){
             print 'generating role_token'
             def post = new URL(vaultHostAddr + "/v1/auth/approle/login").openConnection();
             def message = '{"role_id": "' + role_id + '",' + '"secret_id": "' + secret_id + '"}';
+            print 'message is ' + message ;
             post.setRequestMethod("POST");
             post.setDoOutput(true);
             post.getOutputStream().write(message.getBytes("UTF-8"));
