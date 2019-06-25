@@ -79,7 +79,7 @@ def call(String name = 'human') {
                 // print('role_token is ' + role_token);
             }
             else{
-                error("error for calling " + vaultHostAddr + "/v1/auth/approle/login");
+                // error("error for calling " + vaultHostAddr + "/v1/auth/approle/login");
                 println('http error response code ' + post.getResponseCode());
             }
 
