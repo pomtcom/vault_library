@@ -18,7 +18,7 @@ def call(String name = 'human') {
 
     node {
 
-        stage('Check params and assign value'){
+        stage('Vault - Check params and assign value'){
             assert params.role_id != null : 'String param role_id should be assigned' ;
             role_id = params.role_id
 
@@ -34,7 +34,7 @@ def call(String name = 'human') {
             }
 
         }
-        stage('create secret_id'){
+        stage('Vault - create secret_id'){
             print 'creating secret_id'
             // POST
 
@@ -65,7 +65,7 @@ def call(String name = 'human') {
             assert secret_id != null : 'secret_id is not generated, please check Vault API & token' ;
         }
 
-        stage('generate role_token'){
+        stage('Vault - generate role_token'){
             print 'generating role_token'
             def post = new URL(vaultHostAddr + "/v1/auth/approle/login").openConnection();
             def message = '{"role_id": "' + role_id + '",' + '"secret_id": "' + secret_id + '"}';
@@ -87,7 +87,7 @@ def call(String name = 'human') {
 
         // print('message to send is ' + message);
         }
-        stage('get secret'){
+        stage('Vault - get secret'){
             print 'getting secrt'
             def get = new URL(vaultHostAddr + "/v1/secret_poc/vault_poc_path").openConnection();
             get.setRequestProperty("X-Vault-Token", role_token)
@@ -107,9 +107,6 @@ def call(String name = 'human') {
         }
 
     }
-
-
-
 
 }
 
