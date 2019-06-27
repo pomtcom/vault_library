@@ -125,6 +125,9 @@ class Vault {
 
                 def secretValue = jsonSlurped['data'][secret_key];
                 script.echo('secretKey is ' + secretValue) ;
+
+                assert secretValue != null : 'cannot get secretValue from path ' +  "/v1/" + path + ' with key ' + secret_key;
+
                 return secretValue ;
             }
             else{
