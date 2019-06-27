@@ -118,13 +118,16 @@ class Vault {
                 def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
                 
                 // def poc_password = jsonSlurped['data']['MySQL_PASSWORD'];
-                def poc_password = jsonSlurped['data'][secret_key];
+                def secretValue = jsonSlurped['data'][secret_key];
                 script.echo('secretKey is ' + poc_password) ;
+                return secretValue ;
             }
             else{
                 error("error for calling " + vaultHostAddr + "/v1/secret_poc/vault_poc_path");
                 script.echo('http error response code ' + getRC);
             }
+
+
 
     }
 
