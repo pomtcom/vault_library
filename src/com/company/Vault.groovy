@@ -49,7 +49,6 @@ class Vault {
             }
         }
         assert secret_id != null : 'secret_id is not generated, please check Vault API & token' ;
-        script.echo('secret_id is ' + secret_id);
 
         // ============================ Generate role_token =======================================
         script.echo('generate role_token');
