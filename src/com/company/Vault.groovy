@@ -51,7 +51,7 @@ class Vault {
                 }
                 else{
                     error("error for calling " + vaultHostAddr + "/v1/auth/approle/role/vault_poc_role/secret-id");
-                    println('http error response code ' + post.getResponseCode());
+                    script.echo('http error response code ' + post.getResponseCode());
                 }
             }
             assert secret_id != null : 'secret_id is not generated, please check Vault API & token' ;
@@ -74,7 +74,7 @@ class Vault {
             }
             else{
                 error("error for calling " + vaultHostAddr + "/v1/auth/approle/login");
-                println('http error response code ' + post.getResponseCode());
+                script.echo('http error response code ' + post.getResponseCode());
             }
 
             assert role_token != null : 'role_token is not generated, please check role_id and secret_id for AppRole' ;
@@ -92,11 +92,11 @@ class Vault {
                 def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
                 
                 def poc_password = jsonSlurped['data']['MySQL_PASSWORD'];
-                print('MySQL_PASSWORD is ' + poc_password) ;
+                script.echo('MySQL_PASSWORD is ' + poc_password) ;
             }
             else{
                 error("error for calling " + vaultHostAddr + "/v1/secret_poc/vault_poc_path");
-                println('http error response code ' + getRC);
+                script.echo('http error response code ' + getRC);
             }
 
         }
