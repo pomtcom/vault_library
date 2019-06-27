@@ -39,7 +39,7 @@ class Vault {
                 post.setRequestMethod("POST")
                 post.setDoOutput(true)
 
-                post.setRequestProperty("X-Vault-Token", vaultToken)
+                post.setRequestProperty("X-Vault-Token", script.vaultToken)
                 post.getOutputStream().write(message.getBytes("UTF-8"));
                 // println(postRC);
                 if(post.getResponseCode().equals(200)) {
