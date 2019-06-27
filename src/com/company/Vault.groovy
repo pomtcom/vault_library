@@ -12,23 +12,23 @@ class Vault {
         this.script = script_in;
         this.script.echo('Vault class is working');
 
-        this.script.stage('Vault - Check params and assign value'){
+        // this.script.stage('Vault - Check params and assign value'){
             this.script.echo('Vault - Check params and assign value')
-            // assert params.role_id != null : 'String param role_id should be assigned' ;
-            // role_id = params.role_id
+            assert params.role_id != null : 'String param role_id should be assigned' ;
+            role_id = params.role_id
 
-            // assert params.environment != null : 'String param environment should be assigned' ;
-            // if (params.environment.toLowerCase() == 'dev' || 
-            // params.environment.toLowerCase() == 'alpha' || 
-            // params.environment.toLowerCase() == 'preprod' ) {
-            //     vaultHostAddr = 'http://10.198.105.221:8200'
-            // }
-            // else if (params.environment.toLowerCase() == 'prod'){
-            //     // TBD HostAddress for production Vault Cluster
-            //     vaultHostAddr = ''
-            // }
+            assert params.environment != null : 'String param environment should be assigned' ;
+            if (params.environment.toLowerCase() == 'dev' || 
+            params.environment.toLowerCase() == 'alpha' || 
+            params.environment.toLowerCase() == 'preprod' ) {
+                vaultHostAddr = 'http://10.198.105.221:8200'
+            }
+            else if (params.environment.toLowerCase() == 'prod'){
+                // TBD HostAddress for production Vault Cluster
+                vaultHostAddr = ''
+            }
 
-        }
+        // }
         // script.stage('Vault - create secret_id'){
         //     print 'creating secret_id'
         //     // POST
