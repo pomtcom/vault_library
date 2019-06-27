@@ -10,24 +10,12 @@ class Vault {
 
     def Vault(script_in) {      
         this.script = script_in;
-        this.script.echo('Vault class is working');
-        this.script.echo('123456');
+    }
 
-
-        // testMethod();
-
-        // this.script.stage('Vault - Check params and assign value'){
-            this.script.echo('Vault - Check params and assign value')
-            assert this.script.params.role_id != null : 'String param role_id should be assigned' ;
-
-
-            this.script.stage("NEW STAGE XXXXXXX"){
-                this.script.echo('NEW STAGE XXXXXXX');
-            }
-
-
-
-            // role_id = params.role_id
+    def vaultGetRoleToken(){
+        script.stage('Vault - Check params and assign value'){
+            assert script.params.role_id != null : 'String param role_id should be assigned' ;
+            role_id = script.params.role_id
 
             // assert params.environment != null : 'String param environment should be assigned' ;
             // if (params.environment.toLowerCase() == 'dev' || 
@@ -39,8 +27,7 @@ class Vault {
             //     // TBD HostAddress for production Vault Cluster
             //     vaultHostAddr = ''
             // }
-
-        // }
+        }
         // script.stage('Vault - create secret_id'){
         //     print 'creating secret_id'
         //     // POST
@@ -112,16 +99,13 @@ class Vault {
         //     }
 
         // }
-
     }
+
+
 
 
     String testString;
     def testInt
-
-    def testMethod(){
-        script.echo("echo from testMethod");
-    }
 
     def method1(){
         print 'hello from method 1';
