@@ -30,7 +30,7 @@ class Vault {
             }
         }
         script.stage('Vault - create secret_id'){
-            withCredentials([string(credentialsId: 'VaultToken', variable: 'vaultToken')]) {
+            script.withCredentials([string(credentialsId: 'VaultToken', variable: 'vaultToken')]) {
                 // echo "My password is '${vaultToken}'!"
 
                 // def post = new URL(vaultHostAddr + "/v1/auth/approle/role/vault_poc_role/secret-id").openConnection();
