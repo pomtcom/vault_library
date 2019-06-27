@@ -12,8 +12,8 @@ class Vault {
         this.script = script_in;
         this.script.echo('Vault class is working');
 
-        script.stage('Vault - Check params and assign value'){
-            script.stage('Vault - Check params and assign value')
+        this.script.stage('Vault - Check params and assign value'){
+            this.script.echo('Vault - Check params and assign value')
             // assert params.role_id != null : 'String param role_id should be assigned' ;
             // role_id = params.role_id
 
