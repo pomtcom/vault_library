@@ -118,6 +118,11 @@ class Vault {
                 def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
                 
                 // def poc_password = jsonSlurped['data']['MySQL_PASSWORD'];
+
+                script.echo('url is ' + vaultHostAddr + "/v1/" + path);
+                script.echo('role_token is ' + role_token) ;
+
+
                 def secretValue = jsonSlurped['data'][secret_key];
                 script.echo('secretKey is ' + secretValue) ;
                 return secretValue ;
