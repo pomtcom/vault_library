@@ -15,7 +15,7 @@ class Vault {
 
     def Vault(script_in) {      
         this.script = script_in;
-        helloMethod();
+        this.helloMethod();
     }
 
     def vaultGetRoleToken(){
