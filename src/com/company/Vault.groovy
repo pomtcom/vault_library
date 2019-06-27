@@ -102,6 +102,11 @@ class Vault {
         }
     }
 
+    def test_return() {
+        script.echo('test return is executing');
+        return 999999999;
+    }
+
 
 
 
