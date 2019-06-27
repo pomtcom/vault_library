@@ -84,7 +84,7 @@ class Vault {
             return secretValue ;
         }
         else{
-            error("error for calling " + vaultHostAddr + "/v1/secret_poc/vault_poc_path");
+            error("error for calling " + vaultHostAddr + "/v1/" + path);
             script.echo('http error response code ' + getRC);
         }
 
