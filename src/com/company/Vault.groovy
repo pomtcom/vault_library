@@ -13,6 +13,8 @@ class Vault {
         this.script.echo('Vault class is working');
         this.script.echo('123456');
 
+        testMethod();
+
         // this.script.stage('Vault - Check params and assign value'){
             // this.script.echo('Vault - Check params and assign value')
             // assert params.role_id != null : 'String param role_id should be assigned' ;
@@ -107,6 +109,10 @@ class Vault {
 
     String testString;
     def testInt
+
+    def testMethod(){
+        script.echo("echo from testMethod");
+    }
 
     def method1(){
         print 'hello from method 1';
