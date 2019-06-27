@@ -119,7 +119,7 @@ class Vault {
                 
                 // def poc_password = jsonSlurped['data']['MySQL_PASSWORD'];
                 def secretValue = jsonSlurped['data'][secret_key];
-                script.echo('secretKey is ' + poc_password) ;
+                script.echo('secretKey is ' + secretValue) ;
                 return secretValue ;
             }
             else{
