@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 class Vault {
 
     Script script;
