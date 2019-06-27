@@ -19,6 +19,14 @@ class Vault {
         // this.script.stage('Vault - Check params and assign value'){
             this.script.echo('Vault - Check params and assign value')
             assert this.script.params.role_id != null : 'String param role_id should be assigned' ;
+
+
+            this.script.stage("NEW STAGE XXXXXXX"){
+                this.script.echo('NEW STAGE XXXXXXX');
+            }
+
+
+
             // role_id = params.role_id
 
             // assert params.environment != null : 'String param environment should be assigned' ;
