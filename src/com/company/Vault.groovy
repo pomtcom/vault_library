@@ -8,8 +8,14 @@ class Vault {
     def role_token
     def vaultHostAddr
 
+    def helloMethod(){
+        script.echo('helloMethod');
+    }
+
+
     def Vault(script_in) {      
         this.script = script_in;
+        helloMethod();
     }
 
     def vaultGetRoleToken(){
