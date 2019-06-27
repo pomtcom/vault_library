@@ -82,31 +82,51 @@ class Vault {
         // // print('message to send is ' + message);
         }
 
-        script.stage('Vault - get secret'){
-            // print 'getting secrt'
-            def get = new URL(vaultHostAddr + "/v1/secret_poc/vault_poc_path").openConnection();
+        // script.stage('Vault - get secret'){
+        //     // print 'getting secrt'
+        //     def get = new URL(vaultHostAddr + "/v1/secret_poc/vault_poc_path").openConnection();
+        //     get.setRequestProperty("X-Vault-Token", role_token)
+        //     def getRC = get.getResponseCode();
+        //     if(getRC.equals(200)) {
+        //         def jsonResponse = get.getInputStream().getText() ;
+        //         def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
+                
+        //         def poc_password = jsonSlurped['data']['MySQL_PASSWORD'];
+        //         script.echo('MySQL_PASSWORD is ' + poc_password) ;
+        //     }
+        //     else{
+        //         error("error for calling " + vaultHostAddr + "/v1/secret_poc/vault_poc_path");
+        //         script.echo('http error response code ' + getRC);
+        //     }
+
+        // }
+    }
+
+    // def test_return() {
+    //     script.echo('test return is executing');
+    //     return 999999999;
+    // }
+
+    def getSecret(path, secret_key){
+
+            // def get = new URL(vaultHostAddr + "/v1/secret_poc/vault_poc_path").openConnection();
+            def get = new URL(vaultHostAddr + "/v1/" + path).openConnection();
             get.setRequestProperty("X-Vault-Token", role_token)
             def getRC = get.getResponseCode();
             if(getRC.equals(200)) {
                 def jsonResponse = get.getInputStream().getText() ;
                 def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
                 
-                def poc_password = jsonSlurped['data']['MySQL_PASSWORD'];
-                script.echo('MySQL_PASSWORD is ' + poc_password) ;
+                // def poc_password = jsonSlurped['data']['MySQL_PASSWORD'];
+                def poc_password = jsonSlurped['data'][secret_key];
+                script.echo('secretKey is ' + poc_password) ;
             }
             else{
                 error("error for calling " + vaultHostAddr + "/v1/secret_poc/vault_poc_path");
                 script.echo('http error response code ' + getRC);
             }
 
-        }
     }
-
-    def test_return() {
-        script.echo('test return is executing');
-        return 999999999;
-    }
-
 
 
 
