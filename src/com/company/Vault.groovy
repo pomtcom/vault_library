@@ -8,14 +8,9 @@ class Vault {
     def role_token
     def vaultHostAddr
 
-    def helloMethod(){
-        script.echo('helloMethod');
-    }
-
 
     def Vault(script_in) {      
         this.script = script_in;
-        this.helloMethod();
     }
 
     def init(){
@@ -23,16 +18,16 @@ class Vault {
             assert script.params.role_id != null : 'String param role_id should be assigned' ;
             role_id = script.params.role_id
 
-            assert script.params.environment != null : 'String param environment should be assigned' ;
-            if (script.params.environment.toLowerCase() == 'dev' || 
-            script.params.environment.toLowerCase() == 'alpha' || 
-            script.params.environment.toLowerCase() == 'preprod' ) {
-                vaultHostAddr = 'http://10.198.105.221:8200'
-            }
-            else if (script.params.environment.toLowerCase() == 'prod'){
-                // TBD HostAddress for production Vault Cluster
-                vaultHostAddr = ''
-            }
+            // assert script.params.environment != null : 'String param environment should be assigned' ;
+            // if (script.params.environment.toLowerCase() == 'dev' || 
+            // script.params.environment.toLowerCase() == 'alpha' || 
+            // script.params.environment.toLowerCase() == 'preprod' ) {
+            //     vaultHostAddr = 'http://10.198.105.221:8200'
+            // }
+            // else if (script.params.environment.toLowerCase() == 'prod'){
+            //     // TBD HostAddress for production Vault Cluster
+            //     vaultHostAddr = ''
+            // }
         }
         // script.stage('Vault - create secret_id'){
         //     withCredentials([string(credentialsId: 'VaultToken', variable: 'vaultToken')]) {
