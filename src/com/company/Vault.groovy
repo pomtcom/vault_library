@@ -31,7 +31,7 @@ class Vault {
         }
         script.stage('Vault - create secret_id'){
             script.echo("TTTTTT") ;
-            withCredentials([string(credentialsId: 'VaultToken', variable: 'vaultToken')]) {
+            script.withCredentials([string(credentialsId: 'VaultToken', variable: 'vaultToken')]) {
                 // echo "My password is '${vaultToken}'!"
 
                 script.echo('test with credential') ;
