@@ -30,15 +30,31 @@ class Vault {
             }
         }
         script.stage('Vault - create secret_id'){
-            script.echo("TTTTTT") ;
+            
             script.withCredentials([script.string(credentialsId: 'VaultToken', variable: 'vaultToken')]) {
                 // echo "My password is '${vaultToken}'!"
 
-                script.echo('test with credential') ;
+                def post = new URL(vaultHostAddr + "/v1/auth/approle/role/vault_poc_role/secret-id").openConnection();
+                def message = '{}'
+                post.setRequestMethod("POST")
+                post.setDoOutput(true)
+
+                post.setRequestProperty("X-Vault-Token", vaultToken)
+                post.getOutputStream().write(message.getBytes("UTF-8"));
+                // println(postRC);
+                if(post.getResponseCode().equals(200)) {
+                    def jsonResponse = post.getInputStream().getText() ;
+                    def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
+                    secret_id = jsonSlurped['data']['secret_id'];
+                    // print('secret_id is ' + secret_id)
+
+                }
+                else{
+                    error("error for calling " + vaultHostAddr + "/v1/auth/approle/role/vault_poc_role/secret-id");
+                    println('http error response code ' + post.getResponseCode());
+                }
             }
-
-
-
+            assert secret_id != null : 'secret_id is not generated, please check Vault API & token' ;
 
         }
 
