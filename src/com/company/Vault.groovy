@@ -13,11 +13,12 @@ class Vault {
         this.script.echo('Vault class is working');
         this.script.echo('123456');
 
-        testMethod();
+
+        // testMethod();
 
         // this.script.stage('Vault - Check params and assign value'){
-            // this.script.echo('Vault - Check params and assign value')
-            // assert params.role_id != null : 'String param role_id should be assigned' ;
+            this.script.echo('Vault - Check params and assign value')
+            assert this.script.params.role_id != null : 'String param role_id should be assigned' ;
             // role_id = params.role_id
 
             // assert params.environment != null : 'String param environment should be assigned' ;
