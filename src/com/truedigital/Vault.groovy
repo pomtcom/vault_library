@@ -6,6 +6,7 @@ class Vault {
     def role_id
     def secret_id
     def role_token
+    def microservice_name
     def vaultHostAddr
 
 
@@ -16,6 +17,9 @@ class Vault {
     def init(){
         
         // ============================ Getting environment params ===============================
+        microservice_name = script.env.JOB_BASE_NAME;
+        script.echo('microservice_name is ' + microservice_name);
+
         assert script.params.role_id != null : 'String param role_id should be assigned' ;
         role_id = script.params.role_id
 
