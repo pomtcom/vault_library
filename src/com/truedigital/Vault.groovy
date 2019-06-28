@@ -16,8 +16,8 @@ class Vault {
     }
 
     def init(){
-        
         // ============================ Getting environment params ===============================
+        script.echo('checking environment parameters') ;
         assert script.env.JOB_BASE_NAME != null : 'Get pipeline name has problem, please check'
         microservice_name = script.env.JOB_BASE_NAME;
 
@@ -36,6 +36,7 @@ class Vault {
         }
         
         // ============================ Generate secret id =======================================
+        script.echo('generating secret_id') ;
         script.withCredentials([script.string(credentialsId: 'VaultToken', variable: 'vaultToken')]) {
             def post = new URL(vaultHostAddr + "/v1/auth/approle/role/" + microservice_name + "/secret-id").openConnection();
             def message = '{}'
@@ -56,8 +57,6 @@ class Vault {
         assert secret_id != null : 'secret_id is not generated, please check Vault API & token' ;
 
         // ============================ Generate role_token =======================================
-        script.echo('role_id is ' + role_id);
-        script.echo('secret_id is ' + secret_id) ;
 
         script.echo('generate role_token');
         def post = new URL(vaultHostAddr + "/v1/auth/approle/login").openConnection();
@@ -79,10 +78,9 @@ class Vault {
 
 
     def getSecret(category, secret_key){
-
+        script.echo('get secret vaule of category ' + category + ' with key ' + secret_key);
         assert vaultHostAddr != null && role_token != null: 'vaultHostAddr or role_token are null value, please check that you have call .init() before getSecret' ;
         def secret_path = microservice_name + '/' + environment + '/' + category ;
-        script.echo('secret_path is ' + secret_path) ;
         def get = new URL(vaultHostAddr + "/v1/" + secret_path).openConnection();
         get.setRequestProperty("X-Vault-Token", role_token)
         def getRC = get.getResponseCode();
