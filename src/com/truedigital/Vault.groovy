@@ -49,8 +49,8 @@ class Vault {
                 secret_id = jsonSlurped['data']['secret_id'];
             }
             else{
-                error("error for calling " + vaultHostAddr + "/v1/auth/approle/role/vault_poc_role/secret-id");
                 script.echo('http error response code ' + post.getResponseCode());
+                error("error for calling " + vaultHostAddr + "/v1/auth/approle/role/vault_poc_role/secret-id");
             }
         }
         assert secret_id != null : 'secret_id is not generated, please check Vault API & token' ;
@@ -68,8 +68,8 @@ class Vault {
             role_token = jsonSlurped['auth']['client_token'];
         }
         else{
-            error("error for calling " + vaultHostAddr + "/v1/auth/approle/login");
             script.echo('http error response code ' + post.getResponseCode());
+            error("error for calling " + vaultHostAddr + "/v1/auth/approle/login");
         }
         assert role_token != null : 'role_token is not generated, please check role_id and secret_id for AppRole' ;
     }
@@ -91,8 +91,8 @@ class Vault {
             return secretValue ;
         }
         else{
-            error("error for calling " + vaultHostAddr + "/v1/" + secret_path);
             script.echo('http error response code ' + getRC);
+            error("error for calling " + vaultHostAddr + "/v1/" + secret_path);
         }
 
     }
