@@ -37,7 +37,7 @@ class Vault {
         
         // ============================ Generate secret id =======================================
         script.withCredentials([script.string(credentialsId: 'VaultToken', variable: 'vaultToken')]) {
-            def post = new URL(vaultHostAddr + "/v1/auth/approle/role/vault_poc_role/secret-id").openConnection();
+            def post = new URL(vaultHostAddr + "/v1/auth/approle/role/" + microservice_name + "/secret-id").openConnection();
             def message = '{}'
             post.setRequestMethod("POST")
             post.setDoOutput(true)
@@ -50,7 +50,7 @@ class Vault {
             }
             else{
                 script.echo('http error response code ' + post.getResponseCode());
-                error("error for calling " + vaultHostAddr + "/v1/auth/approle/role/vault_poc_role/secret-id");
+                error("Jenkins write secret_id error with calling " + vaultHostAddr + "/v1/auth/approle/role/" + microservice_name + "/secret-id");
             }
         }
         assert secret_id != null : 'secret_id is not generated, please check Vault API & token' ;
