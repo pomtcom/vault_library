@@ -144,8 +144,10 @@ class Vault {
         script.echo(secretData.getClass().getName());
         script.echo("AFTER GET CLASS")
 
-        secretData.data.key = value;
-        // secretData.data.$key = value ;
+        script.echo('test hashmap is ' + secretData['data']['mysqlinstance1']);
+
+        // secretData.data.key = value;
+        // secretData.data[key] = value ;
         script.sh "rm newtest555.yaml"
         script.writeYaml file: 'newtest555.yaml', data: secretData ;
 
