@@ -141,7 +141,7 @@ class Vault {
         script.echo('check class of secretData');
 
         script.echo("BEFORE GET CLASS")
-        script.echo(secretData.getClass());
+        script.echo(secretData.getClass().getName());
         script.echo("AFTER GET CLASS")
 
         secretData.data.key = value;
