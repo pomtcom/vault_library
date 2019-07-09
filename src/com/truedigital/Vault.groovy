@@ -118,8 +118,10 @@ class Vault {
             def secretValue = jsonSlurped['data'][secret_key];
             assert secretValue != null : 'cannot get secretValue from secret_path ' +  "/v1/" + secret_path + ' with key ' + secret_key;
 
+            script.echo('BASE64 transforming');
             // encode to base64
             def secretValueBase64 = secretValue.bytes.encodeBase64().toString();
+            script.echo('BASE64 transforming is completed with output ' + secretValueBase64);
             secretData['data'][secret_key] = secretValueBase64;
 
             return secretValue ;
