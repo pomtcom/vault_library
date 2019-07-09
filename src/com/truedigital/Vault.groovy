@@ -150,7 +150,7 @@ class Vault {
 
         // secretData.data.key = value;
         // secretData.data[key] = value ;
-        script.sh "rm newtest2.yaml"
+        script.sh "rm -rf newtest2.yaml"
         script.writeYaml file: 'newtest2.yaml', data: secretData ;
 
 
