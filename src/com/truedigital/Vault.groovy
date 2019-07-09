@@ -121,12 +121,26 @@ class Vault {
             def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
             def secretValue = jsonSlurped['data'][secret_key];
             assert secretValue != null : 'cannot get secretValue from secret_path ' +  "/v1/" + secret_path + ' with key ' + secret_key;
+
+            
+
             return secretValue ;
         }
         else{
             script.echo('http error response code ' + getRC);
             error("error for calling " + vaultHostAddr + "/v1/" + secret_path);
         }
+
+    }
+
+    def putSecretTest(key,value){
+        script.echo('put secret test is executing');
+        secretData.data.key = value ;
+        sh "rm newtest.yaml"
+        writeYaml file: 'newtest.yaml', data: secretData ;
+
+
+        script.echo('put secret test is completed');
 
     }
 
