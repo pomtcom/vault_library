@@ -159,6 +159,9 @@ class Vault {
     }
 
     def writeSecretYaml(){
+
+        secretData['data'].remove('default')
+
         def secretFileName = microservice_name + "secret"+".yaml"
         script.sh "rm -rf " + secretFileName
         script.writeYaml file: secretFileName, data: secretData ;
