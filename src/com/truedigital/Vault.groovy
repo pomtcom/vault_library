@@ -137,7 +137,9 @@ class Vault {
         // def key = '55555'
 
         script.echo('put secret test is executing');
-        secretData.data.$key = value ;
+
+        secretData.data.key = value;
+        // secretData.data.$key = value ;
         script.sh "rm newtest555.yaml"
         script.writeYaml file: 'newtest555.yaml', data: secretData ;
 
