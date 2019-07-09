@@ -1,6 +1,15 @@
 import groovy.json.JsonSlurper
 
+
+
+
 class Vault {
+
+    // CONSTANCE VARIABLES FOR THIS LIBRARY
+    final SECRET_GIT_TEMPLATE = "https://github.com/pomtcom/dmpss-omx-v3.git" ; 
+    final SECRET_GIT_TEMPLATE_BRANCH = '*/master' ;
+
+
 
     Script script;
     def role_id
@@ -16,6 +25,10 @@ class Vault {
     }
 
     def init(){
+        // add checkout secret file here
+
+
+
         // ============================ Getting environment params ===============================
         script.echo('checking environment parameters') ;
         assert script.env.JOB_BASE_NAME != null : 'Get pipeline name has problem, please check'
@@ -99,9 +112,19 @@ class Vault {
     }
 
     def checkOutSecretTemplate(){
-        script.echo('checkout SCM is executing');
-        script.checkout script.scm ;
-        script.echo('checkout SCM is completed');
+        script.echo('checkout SCM version2 is executing');
+        script.checkout([
+            $class: 'GitSCM', 
+            branches: [[name: SECRET_GIT_TEMPLATE_BRANCH]], 
+            doGenerateSubmoduleConfigurations: false, 
+            extensions: [], 
+            submoduleCfg: [], 
+            userRemoteConfigs: [[url: SECRET_GIT_TEMPLATE]]])
+        script.echo('checkout SCM is completed (version2)');
+    }
+
+    def defReadSecretFile(){
+        
     }
 
 }
