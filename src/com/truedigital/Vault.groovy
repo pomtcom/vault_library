@@ -27,27 +27,6 @@ class Vault {
     }
 
     def init(){
-        // add checkout secret file here
-        script.echo('checkout SCM version2 is executing');
-        script.checkout([
-            $class: 'GitSCM', 
-            branches: [[name: SECRET_GIT_TEMPLATE_BRANCH]], 
-            doGenerateSubmoduleConfigurations: false, 
-            extensions: [], 
-            submoduleCfg: [], 
-            userRemoteConfigs: [[url: SECRET_GIT_TEMPLATE]]])
-        script.echo('checkout SCM is completed (version2)');
-
-        secretData = script.readYaml file: SECRET_TEMPLATE_YAML
-        script.echo('secretData read value is ' + secretData.type);
-
-
-
-
-
-
-
-
         // ============================ Getting environment params ===============================
         script.echo('checking environment parameters') ;
         assert script.env.JOB_BASE_NAME != null : 'Get pipeline name has problem, please check'
@@ -66,6 +45,23 @@ class Vault {
             // TBD HostAddress for production Vault Cluster
             vaultHostAddr = ''
         }
+
+
+        // GIT Checkout and init secret file from here
+        script.echo('checkout SCM is executing');
+        script.checkout([
+            $class: 'GitSCM', 
+            branches: [[name: SECRET_GIT_TEMPLATE_BRANCH]], 
+            doGenerateSubmoduleConfigurations: false, 
+            extensions: [], 
+            submoduleCfg: [], 
+            userRemoteConfigs: [[url: SECRET_GIT_TEMPLATE]]])
+        script.echo('checkout SCM is completed');
+
+        secretData = script.readYaml file: SECRET_TEMPLATE_YAML
+        secretData['metadata']['name'] = microservice_name + 'secret';
+
+
         
         // ============================ Generate secret id =======================================
         script.echo('generating secret_id') ;
@@ -122,7 +118,9 @@ class Vault {
             def secretValue = jsonSlurped['data'][secret_key];
             assert secretValue != null : 'cannot get secretValue from secret_path ' +  "/v1/" + secret_path + ' with key ' + secret_key;
 
-            
+            // encode to base64
+            def secretValueBase64 = secretValue.bytes.encodeBase64().toString();
+            secretData['data'][secret_key] = secretValueBase64;
 
             return secretValue ;
         }
@@ -156,6 +154,12 @@ class Vault {
 
         script.echo('put secret test is completed');
 
+    }
+
+    def writeSecretYaml(){
+        def secretFileName = microservice_name + "secret"+".yaml"
+        script.sh "rm -rf " + secretFileName
+        script.writeYaml file: secretFileName, data: secretData ;
     }
 
     // def checkOutSecretTemplate(){
