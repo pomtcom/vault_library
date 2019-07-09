@@ -100,7 +100,7 @@ class Vault {
 
     def checkOutSecretTemplate(){
         script.echo('checkout SCM is executing');
-        script.checkout scm ;
+        script.checkout script.scm ;
         script.echo('checkout SCM is completed');
     }
 
