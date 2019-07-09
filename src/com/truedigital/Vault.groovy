@@ -97,4 +97,11 @@ class Vault {
         }
 
     }
+
+    def checkOutSecretTemplate(){
+        script.echo('checkout SCM is executing');
+        script.checkout scm ;
+        script.echo('checkout SCM is completed');
+    }
+
 }
