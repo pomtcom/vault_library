@@ -8,8 +8,7 @@ class Vault {
     // CONSTANCE VARIABLES FOR THIS LIBRARY
     final SECRET_GIT_TEMPLATE = "https://github.com/pomtcom/dmpss-omx-v3.git" ; 
     final SECRET_GIT_TEMPLATE_BRANCH = '*/master' ;
-
-
+    final SECRET_TEMPLATE_YAML = 'secret_template.yaml'
 
     Script script;
     def role_id
@@ -20,12 +19,32 @@ class Vault {
     def vaultHostAddr
 
 
+    def secretData
+
+
     def Vault(script_in) {      
         this.script = script_in;
     }
 
     def init(){
         // add checkout secret file here
+        script.echo('checkout SCM version2 is executing');
+        script.checkout([
+            $class: 'GitSCM', 
+            branches: [[name: SECRET_GIT_TEMPLATE_BRANCH]], 
+            doGenerateSubmoduleConfigurations: false, 
+            extensions: [], 
+            submoduleCfg: [], 
+            userRemoteConfigs: [[url: SECRET_GIT_TEMPLATE]]])
+        script.echo('checkout SCM is completed (version2)');
+
+        secretData = script.readYaml file: SECRET_TEMPLATE_YAML
+        script.echo('secretData read value is ' + secretData.type);
+
+
+
+
+
 
 
 
@@ -111,20 +130,31 @@ class Vault {
 
     }
 
-    def checkOutSecretTemplate(){
-        script.echo('checkout SCM version2 is executing');
-        script.checkout([
-            $class: 'GitSCM', 
-            branches: [[name: SECRET_GIT_TEMPLATE_BRANCH]], 
-            doGenerateSubmoduleConfigurations: false, 
-            extensions: [], 
-            submoduleCfg: [], 
-            userRemoteConfigs: [[url: SECRET_GIT_TEMPLATE]]])
-        script.echo('checkout SCM is completed (version2)');
-    }
+    // def checkOutSecretTemplate(){
+    //     script.echo('checkout SCM version2 is executing');
+    //     script.checkout([
+    //         $class: 'GitSCM', 
+    //         branches: [[name: SECRET_GIT_TEMPLATE_BRANCH]], 
+    //         doGenerateSubmoduleConfigurations: false, 
+    //         extensions: [], 
+    //         submoduleCfg: [], 
+    //         userRemoteConfigs: [[url: SECRET_GIT_TEMPLATE]]])
+    //     script.echo('checkout SCM is completed (version2)');
+    // }
 
     def defReadSecretFile(){
         
+    }
+
+
+    def test_usage(){
+        script.echo('test usage is executing');
+        // checkOutSecretTemplate();
+
+        
+
+
+
     }
 
 }
