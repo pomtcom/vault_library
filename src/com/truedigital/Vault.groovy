@@ -135,9 +135,9 @@ class Vault {
 
     def putSecretTest(key,value){
         script.echo('put secret test is executing');
-        // secretData.data.key = value ;
+        secretData.data.TESTAAA = value ;
         // sh "rm newtest.yaml"
-        // writeYaml file: 'newtest.yaml', data: secretData ;
+        script.writeYaml file: 'newtest555.yaml', data: secretData ;
 
 
         script.echo('put secret test is completed');
