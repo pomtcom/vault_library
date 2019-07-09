@@ -138,6 +138,12 @@ class Vault {
 
         script.echo('put secret test is executing');
 
+        script.echo('check class of secretData');
+
+        script.echo("BEFORE GET CLASS")
+        script.echo(secretData.getClass());
+        script.echo("AFTER GET CLASS")
+
         secretData.data.key = value;
         // secretData.data.$key = value ;
         script.sh "rm newtest555.yaml"
