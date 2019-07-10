@@ -9,6 +9,7 @@ class Vault {
     final SECRET_GIT_TEMPLATE = "https://github.com/pomtcom/dmpss-omx-v3.git" ; 
     final SECRET_GIT_TEMPLATE_BRANCH = '*/master' ;
     final SECRET_TEMPLATE_YAML = 'secret_template.yaml'
+    
 
     Script script;
     def role_id
@@ -17,6 +18,8 @@ class Vault {
     def microservice_name
     def environment
     def vaultHostAddr
+    def secretFileName
+    def secretOCName
 
 
     def secretData
@@ -31,6 +34,8 @@ class Vault {
         script.echo('checking environment parameters') ;
         assert script.env.JOB_BASE_NAME != null : 'Get pipeline name has problem, please check'
         microservice_name = script.env.JOB_BASE_NAME;
+        secretFileName = microservice_name + "secret"+".yaml"
+        secretOCName = microservice_name + "secret"
 
         assert script.params.role_id != null : 'String param role_id should be assigned' ;
         role_id = script.params.role_id ;
@@ -162,7 +167,6 @@ class Vault {
 
         secretData['data'].remove('default')
 
-        def secretFileName = microservice_name + "secret"+".yaml"
         script.sh "rm -rf " + secretFileName
         script.writeYaml file: secretFileName, data: secretData ;
     }
@@ -188,10 +192,7 @@ class Vault {
         script.echo('test usage is executing');
         // checkOutSecretTemplate();
 
-        
-
-
-
+    
     }
 
 }
